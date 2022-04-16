@@ -28,11 +28,34 @@ function createHTMLString(item) {
   `;
 }
 
+// Handle button click
+function onButtonClick(e, items) {
+	const dataset = e.target.dataset;
+	const key = dataset.key;
+	const value = dataset.value;
+
+	if (key == null || value == null) {
+		return;
+	}
+
+	displayItems(items.filter((item) => item[key] === value));
+}
+
+function setEventListeners(items) {
+	// logo click event
+	const logo = document.querySelector("#logo");
+	logo.addEventListener("click", () => displayItems(items));
+
+	// btns click event
+	const btns = document.querySelector("#btns");
+	btns.addEventListener("click", (e) => onButtonClick(e, items));
+}
+
 // main
 
 loadItems()
 	.then((items) => {
 		displayItems(items);
-		// setEventListeners(items);
+		setEventListeners(items);
 	})
 	.catch(console.log);
